@@ -21,14 +21,5 @@ app.extends.Router = Backbone.Router.extend({
     
     index: ()->
         app.removeAllViews()
-        app.captcha.setCaptcha()
         app.views.submitButton = new app.extends.ViewSubmit()
 })
-
-app.captcha = {}
-
-app.captcha.setCaptcha = ()->
-    app.captcha.ops = ['+','-']
-    app.captcha.first = _.random(0,9); app.captcha.second =  _.random(0,9)
-    app.captcha.opIndex = _.random(0,1)
-    $('#captchaOperation').html(app.captcha.first + ' ' + app.captcha.ops[app.captcha.opIndex] + ' ' + app.captcha.second + ' = ...')

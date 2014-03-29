@@ -14,20 +14,13 @@ app.extends.ViewSubmit = Backbone.View.extend({
     },
     submitInfo: (e)->
         e.preventDefault()
-        this.validateCaptcha(()->
+        this.validate(()->
             app.router.navigate('search?band=' + $('#band-name').val() + '&album=' + $('#album-name').val(), {trigger: true})
         )
 
-    validateCaptcha: (cb)->
-        if app.captcha.opIndex == 1 then second = (app.captcha.second * -1) else second = app.captcha.ops
-        result = app.captcha.first + second
-        input = parseInt( $('#captcha').val() )
-        if result == input
+    validate: (cb)->
+        if $('#band-name').val() != '' and $('#album-name').val()
             cb()
-        else
-            $('.alert').html('Wrong captcha').alert()
-            
-            console.log 'alert'
 })
 
 app.extends.ViewReleaseRow = Backbone.View.extend({

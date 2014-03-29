@@ -1,0 +1,47 @@
+extends ../layout
+
+block head
+    title Album Digger - @igncp
+
+block body
+    script(src="js/digger/digger.js")
+    p This is a information seeker site for albums. Please, type the band name and the album name correctly. Then, you'll see several results depending on the source.
+    form
+        p The band name
+        p
+            input(type="text")#band-name
+        p The album name
+        p
+            input(type="text")#album-name
+        p Are you an human or a well trained bot? <span id="captchaOperation"></span>
+        p
+            p.alert
+            input(type="text")#captcha
+        input(type="submit", value="Send")#submitter.btn.btn-info
+    ul#releases
+    div.singleRelease
+
+
+    script(type="text/template",id="releaseRow")
+        div <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label[0] %>) <a class="release-link" href="#">Link</a>
+    
+
+
+    script(type="text/template",id="release")
+        p <%= title %>
+        p Artists: <%= artists[0].name %>
+        p Genre: <%= genres[0] %>
+        <% if (released) {%>
+        p Year: <%= released %>
+        <% }; %>
+        p Record country: <%= country %>
+        p Record label: <%= labels[0].name %>
+        p Record format: <%= formats[0].name %>
+        p Source link: <a href="<%= uri %>">···</a>
+        p Tracklist:
+        ul
+            <%= _.map(tracklist, function (track,index){return '<li>' + (index + 1) + ': ' + track.title + ' | ' + track.videoLink + ' | ' + track.lyricsLink + '</li>';}).join("") %>
+        p Notes: <%= notes.replace(/\n/, '</br>') %>
+        //- p Videos:
+        //- ul
+        //-     <%= _.map(videos, function (video,index){return '<li>' + (index + 1) + ': ' + video.uri + '</li>';}).join("") %>

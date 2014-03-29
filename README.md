@@ -1,0 +1,2 @@
+# albumdigger
+### a Sails application

@@ -1,0 +1,26 @@
+{
+  "name": "albumdigger",
+  "private": true,
+  "version": "0.0.0",
+  "description": "a Sails application",
+  "dependencies": {
+    "sails": "0.9.11",
+    "grunt": "0.4.1",
+    "sails-disk": "~0.9.0",
+    "ejs": "0.8.4",
+    "optimist": "0.3.4",
+    "coffee-script": "^1.7.1",
+    "underscore": "^1.6.0",
+    "request": "^2.34.0",
+    "grunt-contrib-compass": "^0.7.2",
+    "googleapis": "^0.6.1"
+  },
+  "scripts": {
+    "start": "node app.js",
+    "debug": "node debug app.js"
+  },
+  "main": "app.js",
+  "repository": "",
+  "author": "",
+  "license": ""
+}

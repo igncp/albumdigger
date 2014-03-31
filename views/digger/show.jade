@@ -28,7 +28,7 @@ block body
         p <%= title %>
         p Artists: <%= artists[0].name %>
         p Genre: <%= genres[0] %>
-        <% if (released) {%>
+        <% if (typeof(released) !== 'undefined') {%>
         p Year: <%= released %>
         <% }; %>
         p Record country: <%= country %>
@@ -38,7 +38,9 @@ block body
         p Tracklist:
         ul
             <%= _.map(tracklist, function (track,index){return '<li>' + (index + 1) + ': ' + track.title + ' | ' + track.videoLink + ' | ' + track.lyricsLink + '</li>';}).join("") %>
+        <% if (typeof(notes)!=='undefined') {%>
         p Notes: <%= notes.replace(/\n/, '</br>') %>
+        <% }%>
         //- p Videos:
         //- ul
         //-     <%= _.map(videos, function (video,index){return '<li>' + (index + 1) + ': ' + video.uri + '</li>';}).join("") %>

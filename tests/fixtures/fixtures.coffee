@@ -5,4 +5,9 @@ module.exports = {
 
     return u
   )()
+
+  search: {
+    album: 'pretty daze'
+    band: 'kurt vile'
+  }
 }

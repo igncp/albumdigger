@@ -1,5 +1,5 @@
 module.exports = (()->
-  casper.on('remote.message', (msg)-> casper.echo('* Remote error: ' + msg, 'WARNING'); )
+  casper.on('remote.message', (msg)-> casper.echo('* Remote message: ' + msg, 'PARAMETER'); )
   casper.on('remote.error', (msg)-> casper.echo('* Remote error: ' + msg, 'WARNING'); )
   casper.on('resource.error', (err)-> casper.echo('* Remote error: ' +
     err.errorString , 'WARNING') )

@@ -1,14 +1,14 @@
 <script type="text/javascript" src="/js/digger/digger.js"></script>
 <p>This is a information seeker site for albums. Please, type the band name and the album name correctly. Then, you'll see several results depending on the source.</p>
   <form>
-    <p>The band name</p>
-    <p><input id="band-name" type="text"></p>
-    <p>The album name</p>
-    <p><input id="album-name" type="text"></p>
+    <p>The band:</p>
+    <p><input id="band-name" type="text" name="band"></p>
+    <p>The album title:</p>
+    <p><input id="album-name" type="text" name="album"></p>
     <input type="submit" value="Send" id="submitter" class="btn btn-info">
   </form>
-<ul id="releases"></ul>
-<div class="singleRelease"></div>
+<ul id="releases" style="display: none"></ul>
+<div class="singleRelease" style="display: none"></div>
 
 <script type="text/template" id="releaseRow">
     <div>
@@ -34,7 +34,8 @@
     <ul>
       <%= _.map(tracklist, function (track,index){return '<li>' + (index + 1) + ': ' + track.title + ' | ' + track.videoLink + ' | ' + track.lyricsLink + '</li>';}).join("") %>
       <% if (typeof(notes)!=='undefined') {%>
-        <p class="notes">Notes: <%= notes.replace(/\n/, '</br>') %></p>
+        <p class="notes">Notes:</p>
+        <p><%= notes.replace(/\n/, '</br>') %></p>
       <% }%>
     </ul>
 </script>

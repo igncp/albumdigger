@@ -21,8 +21,9 @@ module.exports = {
     band = encodeURIComponent(req.body.bandName)
     album = encodeURIComponent(req.body.albumName)
 
-  search: (req, res)->
-    res.redirect('/')
+  search: (req, res)-> res.redirect('/')
+  
+  album: (req, res)-> res.redirect('/')
       
   _config: {}
  

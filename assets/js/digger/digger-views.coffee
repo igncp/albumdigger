@@ -1,81 +1,84 @@
-app = app || {}
-app.extends = app.extends || {}
+app = app or {}
+app.extends = app.extends or {}
 app.views = {}
 
-app.removeAllViews = ()->
+app.removeAllViews = ( ->
   _.each(app.views, (viewContent, view)->
     app.views[view].hide() if view != 'submitButton'
   )
+)
+
+Backbone.View::hide = -> @$el.hide()
+Backbone.View::initialize = -> @render()
 
 app.extends.ViewSubmit = Backbone.View.extend({
   el: '#submitter'
   
-  events: {
+  events:
     'click': 'submitInfo'
-  }
   
-  submitInfo: (e)->
+  submitInfo: ((e)->
     e.preventDefault()
-    this.validate(()->
+    @validate( ->
       app.router.navigate('search?band=' + $('#band-name').val() +
         '&album=' + $('#album-name').val(), {trigger: true})
     )
+  )
 
-  validate: (cb)->
-    if $('#band-name').val() != '' and $('#album-name').val()
-      cb()
+  validate: ((cb)->
+    if $('#band-name').val() != '' and $('#album-name').val() then cb()
+    else return
+  )
 })
 
-app.extends.ViewReleaseRow = Backbone.View.extend({
+
+class app.extends.ViewReleaseRow extends Backbone.View
   tagName: 'li',
   
   template: _.template($('#releaseRow').html()),
   
-  events: {
+  events:
     'click .release-link': 'selectRelease'
-  }
   
-  initialize: ()->
-    this.render()
+  render: -> @$el.html(@template(@model.attributes))
   
-  render: ()->
-    this.$el.html(this.template(this.model.attributes))
-  
-  selectRelease: (e)->
+  selectRelease: ((e)->
     e.preventDefault()
-    this.model.fetch({success: (model, data)->
-      app.views.releasesList.hide()
-      release = new app.extends.ModelRelease(JSON.parse(data))
-      app.views.release = new app.extends.ViewRelease({model: release})
+    @model.fetch({success: (model, data)->
+      album = JSON.parse(data)
+      app.models.release = new app.extends.ModelRelease(album)
+      app.router.navigate('album?id=' + album.id, {trigger: true})
     })
-})
+  )
 
-app.extends.ViewReleasesList = Backbone.View.extend({
+
+
+class app.extends.ViewReleasesList extends Backbone.View
   el: '#releases',
 
-  initialize: ()-> this.render()
-
-  render: ()->
+  render: ( ->
     view = this
-    this.$el.html('<p><strong>Results:</strong> ' + this.collection.length + '</p>').fadeIn(3000)
-    this.collection.each((model)->
+    @$el.html('<p><strong>Results:</strong> ' + @collection.length + '</p>').fadeIn(3000)
+    @collection.each((model)->
       releaseList = new app.extends.ViewReleaseRow({ model: model })
       view.$el.append(releaseList.el)
     )
-    this.$el.append('<p><strong>Discogs search <a href="http://api.discogs.com" ' +
+    @$el.append('<p><strong>Discogs search <a href="http://api.discogs.com" ' +
       'target="_blank">API</a></strong></p>')
+  )
 
-  hide: ()-> this.$el.hide()
-})
 
-app.extends.ViewRelease = Backbone.View.extend({
+class app.extends.ViewRelease extends Backbone.View
   el: '.singleRelease'
-
   template: _.template($('#release').html())
   
-  initialize: ()-> this.render()
-  
-  render: ()-> this.$el.html(this.template(this.model.attributes)).fadeIn(3000)
-  
-  hide: ()-> this.$el.hide()
-})
+  render: -> @$el.html(@template(@model.attributes)).fadeIn(3000)
+
+  events:
+    'click .release-back': 'goBack'
+
+  goBack: ((e)->
+    e.preventDefault()
+    app.back = true
+    window.history.back()
+  )

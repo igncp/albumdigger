@@ -3,4 +3,5 @@ module.exports.routes = {
   '/releases/': 'DiggerController.releasesList',
   '/release/:id': 'DiggerController.release',
   '/search': 'DiggerController.search'
+  '/album': 'DiggerController.album'
 }

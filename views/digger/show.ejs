@@ -25,7 +25,9 @@
       <p>Year: <%= released %></p>
     <% }; %>
 
-    <p>Record country: <%= country %></p>
+    <% if (typeof(country)!=='undefined') {%>
+        <p>Record country: <%= country %></p>
+    <% }%>
     <p>Record label: <%= labels[0].name %></p>
     <p>Record format: <%= formats[0].name %></p>
     <p>Source link: <a href="<%= uri %>">···</a></p>
@@ -38,4 +40,6 @@
         <p><%= notes.replace(/\n/, '</br>') %></p>
       <% }%>
     </ul>
+    
+    <p><a href="" class="release-back btn btn-default">Back</a></p>
 </script>

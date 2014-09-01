@@ -1,16 +1,15 @@
-app = app || {}
-app.extends = app.extends || {}
+app = app or {}
+app.extends = app.extends or {}
 
-app.extends.ModelReleaseRow = Backbone.Model.extend({
+class app.extends.ModelReleaseRow extends Backbone.Model
   urlRoot: 'release'
-})
 
-app.extends.CollectionReleases = Backbone.Collection.extend({
+class app.extends.CollectionReleases extends Backbone.Collection
   model: app.extends.ModelReleaseRow
-})
 
-app.extends.ModelRelease = Backbone.Model.extend({
-  initialize: (()->
+
+class app.extends.ModelRelease extends Backbone.Model
+  initialize: ( ->
     self = this
     _.each(this.attributes.tracklist,(track, index)->
       self.attributes.tracklist[index].videoLink = \
@@ -25,4 +24,3 @@ app.extends.ModelRelease = Backbone.Model.extend({
         '" target="_blank">Lyrics</a>'
     )
   )
-})

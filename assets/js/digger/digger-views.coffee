@@ -57,15 +57,15 @@ app.extends.ViewReleasesList = Backbone.View.extend({
 
   render: ()->
     view = this
-    this.$el.html('<p><strong>Discogs search</strong>: (<a href="http://api.discogs.com" ' +
-      'target="_blank">API</a>)</p>').fadeIn(3000)
+    this.$el.html('<p><strong>Results:</strong> ' + this.collection.length + '</p>').fadeIn(3000)
     this.collection.each((model)->
       releaseList = new app.extends.ViewReleaseRow({ model: model })
       view.$el.append(releaseList.el)
     )
+    this.$el.append('<p><strong>Discogs search <a href="http://api.discogs.com" ' +
+      'target="_blank">API</a></strong></p>')
 
-  hide: ()->
-    this.$el.hide()
+  hide: ()-> this.$el.hide()
 })
 
 app.extends.ViewRelease = Backbone.View.extend({

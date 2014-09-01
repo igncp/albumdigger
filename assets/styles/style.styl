@@ -1,0 +1,54 @@
+@import 'nib'
+
+::selection {
+  color:#CCC
+}
+::-moz-selection {
+  color:#CCC
+}
+
+body
+  text-align: center
+  
+  input[type="text"]
+    padding: 3px
+    border-radius(5px)
+
+  ul
+    list-style-type: none
+    -webkit-padding-start: 0px
+    
+  .row { margin: auto 0px }
+  
+  .sky-background
+    background-image: url('../images/sky.jpg')
+    background-size: 100%
+    font-family: 'Sofadi One', cursive
+    
+    h2, p 
+      color: white
+      font-size 80px
+      margin-top: 0px
+      a
+        color: white
+        text-decoration: underline
+    
+  #content
+    padding: 30px
+  
+  footer
+    padding-top 30px
+    background-position: center bottom
+    border-top: solid 2px #ccc
+  
+  header
+    padding-top 50px
+    height 190px
+    background-position: center center
+    border-bottom: solid 2px #ccc
+
+  #submitter
+    margin-bottom: 10px
+
+@import '_releases'
+@import '_sticky_footer'

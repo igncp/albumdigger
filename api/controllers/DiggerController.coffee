@@ -9,7 +9,7 @@ module.exports = {
     band = encodeURIComponent(req.body.bandName)
     album = encodeURIComponent(req.body.albumName)
     url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
-    request.get({url: url, headers: {'User-Agent': 'node-album-app: still without url'}}, \
+    request.get({url: url, headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'}}, \
       (err, all, data) -> res.json(data) )
 
   release: (req, res) ->

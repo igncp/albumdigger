@@ -22,12 +22,12 @@ class app.extends.ViewReleaseRow extends Backbone.View
   
   template: _.template($('#release-row').html()),
   
-  events:
-    'click .release-link': 'selectRelease'
-  
   render: ->
     @$el.html(@template(@model.attributes))
     this
+  
+  events:
+    'click .release-link': 'selectRelease'
   
   selectRelease: ((e)->
     e.preventDefault()

@@ -15,8 +15,6 @@ app.extends.Router = Backbone.Router.extend({
     data = {}
     data.bandName = band
     data.albumName = album
-
-    app.removeAllViews()
     
     if app.back is true
       app.back = false
@@ -32,7 +30,7 @@ app.extends.Router = Backbone.Router.extend({
   
   index: ( ->
     app.removeAllViews()
-    app.views.submitButton = new app.extends.ViewSubmit()
+    app.views.searchForm.render()
   )
 
   release: ( ->

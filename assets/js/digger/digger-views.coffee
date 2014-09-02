@@ -47,10 +47,18 @@ class app.extends.ViewReleasesList extends Backbone.View
     app.removeAllViews()
     @el.innerHTML = @template({result_count: @collection.length})
     app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
-    @collection.each((model)->
+    five = @collection.first(5)
+    five.forEach((model)->
       release = new app.extends.ViewReleaseRow({ model: model })
-      view.$el.find('.list').append(release.el)
+      view.$el.find('.list-five').append(release.el)
     )
+    if @collection.length > 5
+      @$el.find('.list-rest').append('<p><strong>Rest of the results:</strong></p>')
+      @collection.each((model, index)->
+        if index > 4
+          release = new app.extends.ViewReleaseRow({ model: model })
+          view.$el.find('.list-rest').append(release.el)
+      )
     @$el.fadeIn(3000)
   )
 

@@ -6,10 +6,8 @@ module.exports = {
     res.view()
 
   releasesList: (req, res) ->
-    # band = encodeURIComponent(req.body.bandName)
-    # album = encodeURIComponent(req.body.albumName)
-    band = 'elton john' # ***************
-    album = 'chateau' # ***************
+    band = encodeURIComponent(req.body.bandName)
+    album = encodeURIComponent(req.body.albumName)
 
     url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
     request.get({
@@ -27,8 +25,7 @@ module.exports = {
     album = encodeURIComponent(req.body.albumName)
 
   search: (req, res)->
-    res.view('digger/show') # ***************
-    #res.redirect('/')
+    res.redirect('/')
   
   album: (req, res)-> res.redirect('/')
       

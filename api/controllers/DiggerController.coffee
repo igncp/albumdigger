@@ -6,11 +6,16 @@ module.exports = {
     res.view()
 
   releasesList: (req, res) ->
-    band = encodeURIComponent(req.body.bandName)
-    album = encodeURIComponent(req.body.albumName)
+    # band = encodeURIComponent(req.body.bandName)
+    # album = encodeURIComponent(req.body.albumName)
+    band = 'elton john' # ***************
+    album = 'chateau' # ***************
+
     url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
-    request.get({url: url, headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'}}, \
-      (err, all, data) -> res.json(data) )
+    request.get({
+      url: url
+      headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'}
+    }, (err, all, data) -> res.json(data) )
 
   release: (req, res) ->
     url = 'http://api.discogs.com/releases/' + req.param('id')
@@ -21,7 +26,9 @@ module.exports = {
     band = encodeURIComponent(req.body.bandName)
     album = encodeURIComponent(req.body.albumName)
 
-  search: (req, res)-> res.redirect('/')
+  search: (req, res)->
+    res.view('digger/show') # ***************
+    #res.redirect('/')
   
   album: (req, res)-> res.redirect('/')
       

@@ -46,6 +46,7 @@ class app.extends.ViewReleasesList extends Backbone.View
     view = this
     app.removeAllViews()
     @el.innerHTML = @template({result_count: @collection.length})
+    app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
     @collection.each((model)->
       release = new app.extends.ViewReleaseRow({ model: model })
       view.$el.find('.list').append(release.el)
@@ -86,8 +87,14 @@ app.views.searchForm = new (Backbone.View.extend({
   )
 
   validate: ((cb)->
-    if $('#band-name').val() != '' and $('#album-name').val() then cb()
-    else return
+    if $('#band-name').val() != '' and $('#album-name').val()
+      cb()
+    else
+      duration = 1000
+      message = @$el.find('#validation-error-message')
+      message.stop().clearQueue().fadeTo(duration, 1, ->
+        message.delay(3000).fadeTo(duration,0)
+      )
   )
 
 }))()

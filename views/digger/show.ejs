@@ -1,25 +1,29 @@
 <script type="text/javascript" src="/js/digger/digger.js"></script>
 
-<p>This is an information-seeker site for albums. Please, type the band name and the album name correctly. Then, you'll see several results depending on the source. It's built using Node.js, Backbone.js and the Discogs API as main technologies.</p>
+<p>This is an information-seeker site for albums. Please, type the band name and the album name correctly. Then, you'll see several results depending on the source. It's built using <strong>Node.js</strong>, <strong>Backbone.js</strong>, <strong>D3.js</strong> and the <strong>Discogs API</strong> as main technologies.</p>
 
+<div id="releases" style="display: none"></div>
+<div class="singleRelease" style="display: none"></div>
 <form id="search-form" style="display: none">
+  <p id="validation-error-message" class="alert alert-warning" role="alert">You must enter values in the album and the band field</p>
   <p>The band:</p>
   <p><input id="band-name" type="text" name="band"></p>
   <p>The album title:</p>
   <p><input id="album-name" type="text" name="album"></p>
-  <input type="submit" value="Send" id="submitter" class="btn btn-info">
+  <input type="submit" value="Search" id="submitter" class="btn btn-info">
 </form>
-<div id="releases" style="display: none"></div>
-<div class="singleRelease" style="display: none"></div>
 
 <script type="text/template" id="release-row">
     <div class="release-row">
       <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label[0] %>) <a class="release-link" href="#">Link</a>
     </div>
 </script>
-
 <script type="text/template" id="releases-list">
   <p><strong>Results:</strong> <%= result_count %> </p>
+  <p><a href="" class="btn btn-default back">Back</a></p>
+  <div id="charts">
+    <p>Charts:</p>
+  </div>
   <ul class="list"></ul>
   <p><strong>Discogs search <a href="http://api.discogs.com" target="_blank">API</a></strong></p>
   <p><a href="" class="btn btn-default back">Back</a></p>

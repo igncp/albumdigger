@@ -29,6 +29,7 @@ app.extends.Router = Backbone.Router.extend({
   )
   
   index: ( ->
+    if app.back is true then app.back = false
     app.removeAllViews()
     app.views.searchForm.render()
   )

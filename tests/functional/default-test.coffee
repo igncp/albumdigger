@@ -6,6 +6,11 @@ casper.test.begin('General tests.', (test)->
   
   ).waitUntilVisible('#search-form').then( ->
     test.assertVisible('#search-form', 'The form is visible.')
+    this.click('#submitter')
+  
+  ).waitUntilVisible('#validation-error-message').then( ->
+    test.assertVisible('#validation-error-message',
+      'The validation message shows when fields are empty')
     this.fill('form', fixtures.search, false)
     this.click('#submitter')
 

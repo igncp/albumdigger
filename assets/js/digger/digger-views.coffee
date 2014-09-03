@@ -1,5 +1,6 @@
 app = app or {}
 app.extends = app.extends or {}
+app.extends.charts = app.extends.charts or {}
 app.views = {}
 
 app.removeAllViews = ( ->
@@ -15,7 +16,6 @@ Backbone.View::goBack = ((e)->
   app.back = true
   window.history.back()
 )
-
 
 class app.extends.ViewReleaseRow extends Backbone.View
   tagName: 'li',
@@ -46,7 +46,6 @@ class app.extends.ViewReleasesList extends Backbone.View
     view = this
     app.removeAllViews()
     @el.innerHTML = @template({result_count: @collection.length})
-    app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
     five = @collection.first(5)
     five.forEach((model)->
       release = new app.extends.ViewReleaseRow({ model: model })
@@ -59,11 +58,26 @@ class app.extends.ViewReleasesList extends Backbone.View
           release = new app.extends.ViewReleaseRow({ model: model })
           view.$el.find('.list-rest').append(release.el)
       )
+    app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
+    app.views.chartLabels = new app.extends.charts.ChartLabels({collection: view.collection})
     @$el.fadeIn(3000)
   )
 
   events:
     'click .back': 'goBack'
+    'click .toggle-charts': 'hideCharts'
+
+  hideCharts: ((e)->
+    e.preventDefault()
+    if $('#charts').is(':visible')
+      $('.toggle-charts a').text('Show Charts')
+      $('#charts').fadeOut(1000)
+      $('.toggle-charts').animate({top: '-20px', right: '10px'}, 1000, 'linear')
+    else
+      $('.toggle-charts a').text('Hide Charts')
+      $('#charts').fadeIn(1000)
+      $('.toggle-charts').animate({top: '0px', right: '60px'}, 1000)
+  )
 
 
 class app.extends.ViewRelease extends Backbone.View
@@ -106,3 +120,24 @@ app.views.searchForm = new (Backbone.View.extend({
   )
 
 }))()
+
+app.extends.charts.ChartYears = Backbone.View.extend({
+  render: ->
+    data = @collection.groupBy('year')
+    data = _.keys(data).map((key, index)-> {
+      year: (-> if key is 'undefined' then return 'None' else return key)()
+      count: data[key].length
+    })
+    app.extends.charts.generates.generateChartYears(data)
+})
+
+app.extends.charts.ChartLabels = Backbone.View.extend({
+  render: ->
+    data = @collection.groupBy('label')
+    data = _.keys(data).map((key, index)-> {
+      label: (-> if key is 'undefined' then return 'None' else return key)()
+      count: data[key].length
+    })
+    data = _.sortBy(data, 'count').reverse()
+    app.extends.charts.generates.generateChartLabels(data)
+})

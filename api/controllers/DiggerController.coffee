@@ -25,7 +25,7 @@ module.exports = {
     album = encodeURIComponent(req.body.albumName)
 
   search: (req, res)->
-    res.redirect('/')
+    res.view('digger/show')
   
   album: (req, res)-> res.redirect('/')
       

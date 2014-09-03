@@ -27,7 +27,7 @@ charts.generates.generateChartYears = ((data)->
   x = d3.scale.linear().domain([-0.5,data.length - .5]).range([0, width])
   y = d3.scale.linear().domain([0,d3.max(data, (d)-> d.count) + 5]).range([height, 0])
 
-  xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(data.length - 1 )
+  xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(data.length)
     .tickFormat((i)-> if i < data.length then return data[i].year else return ''  )
   yAxis = d3.svg.axis().scale(y).orient('left').tickFormat(d3.format('d'))
 
@@ -80,7 +80,7 @@ charts.generates.generateChartLabels = ((data)->
   x = d3.scale.linear().domain([-0.5,data.length - .5]).range([0, width])
   y = d3.scale.linear().domain([0,d3.max(data, (d)-> d.count) + 1]).range([height, 0])
 
-  xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(data.length - 1 )
+  xAxis = d3.svg.axis().scale(x).orient('bottom').ticks(data.length )
     .tickFormat((i)->
       if i < data.length
         if data[i].label.length > 8 then return data[i].label.substr(0,7) + '...'

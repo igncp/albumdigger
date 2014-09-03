@@ -16,7 +16,7 @@ generateFilter = ((svg, id, slope, deviation, dx, dy)->
 
 charts.generates.generateChartYears = ((data)->
   margin = {top: 30, right: 70, bottom: 70, left: 80}
-  width = $('#charts').parent().parent().innerWidth() - margin.left - margin.right
+  width = $('#charts').parent().parent().parent().innerWidth() - margin.left - margin.right
   height = 500 - margin.top - margin.bottom
 
   svg = d3.select('#charts').append('div').attr({id: 'chart-years'})
@@ -69,7 +69,7 @@ charts.generates.generateChartYears = ((data)->
 
 charts.generates.generateChartLabels = ((data)->
   margin = {top: 30, right: 70, bottom: 100, left: 80}
-  width = $('#charts').parent().parent().innerWidth() - margin.left - margin.right
+  width = $('#charts').parent().parent().parent().innerWidth() - margin.left - margin.right
   height = 500 - margin.top - margin.bottom
 
   svg = d3.select('#charts').append('div').attr({id: 'chart-labels'})

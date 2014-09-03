@@ -18,7 +18,7 @@ app.extends.Router = Backbone.Router.extend({
     
     if app.back is true
       app.back = false
-      app.views.releasesList = new app.extends.ViewReleasesList({collection: app.models.releases})
+      app.views.releasesList.render()
 
     else
       $.ajax({url: '/releases/', type: 'POST', data: data}).done((data)->

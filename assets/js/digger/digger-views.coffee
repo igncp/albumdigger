@@ -65,9 +65,9 @@ class app.extends.ViewReleasesList extends Backbone.View
 
   events:
     'click .back': 'goBack'
-    'click .toggle-charts': 'hideCharts'
+    'click .toggle-charts': 'toggleCharts'
 
-  hideCharts: ((e)->
+  toggleCharts: ((e)->
     e.preventDefault()
     if $('#charts').is(':visible')
       $('.toggle-charts a').text('Show Charts')

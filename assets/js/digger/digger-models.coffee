@@ -4,7 +4,7 @@ app.extends = app.extends or {}
 class app.extends.ModelReleaseRow extends Backbone.Model
   urlRoot: 'release'
   initialize: ( ->
-    this.set('label', this.get('label')[0]) if this.get('label')
+    @set('label', @get('label')[0]) if @get('label')
   )
 
 class app.extends.CollectionReleases extends Backbone.Collection

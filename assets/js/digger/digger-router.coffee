@@ -15,6 +15,7 @@ app.extends.Router = Backbone.Router.extend({
     data = {}
     data.bandName = band
     data.albumName = album
+    app.params = queryString()
     
     if app.back is true
       app.back = false
@@ -23,8 +24,13 @@ app.extends.Router = Backbone.Router.extend({
     else
       $.ajax({url: '/releases/', type: 'POST', data: data}).done((data)->
         releases = JSON.parse(data)
+
+        app.models.releases.remove() if app.models.releases
         app.models.releases = new app.extends.CollectionReleases(releases.results)
-        app.views.releasesList = new app.extends.ViewReleasesList({collection: app.models.releases})
+        
+        if app.views.releasesList then app.views.releasesList.render()
+        else app.views.releasesList = new \
+          app.extends.ViewReleasesList({collection: app.models.releases})
       )
   )
   
@@ -40,3 +46,21 @@ app.extends.Router = Backbone.Router.extend({
   )
 
 })
+
+queryString = ( ->
+  query_string = {}
+  query = window.location.search.substring(1)
+  vars = query.split('&')
+  for i in [0...vars.length]
+    pair = vars[i].split('=')
+
+    if typeof query_string[pair[0]] is 'undefined'
+      query_string[pair[0]] = pair[1]
+    else if typeof query_string[pair[0]] is 'string'
+      arr = [ query_string[pair[0]], pair[1] ]
+      query_string[pair[0]] = arr
+    else
+      query_string[pair[0]].push(pair[1])
+  
+  query_string
+)

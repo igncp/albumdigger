@@ -45,7 +45,8 @@ class app.extends.ViewReleasesList extends Backbone.View
   render: ( ->
     view = this
     app.removeAllViews()
-    @el.innerHTML = @template({result_count: @collection.length})
+    @el.innerHTML = @template({result_count: view.collection.size()})
+    @$el.find('input[value="' + view.collection.currentFilter + '"]').attr('checked', 'checked')
     five = @collection.first(5)
     five.forEach((model)->
       release = new app.extends.ViewReleaseRow({ model: model })
@@ -63,9 +64,15 @@ class app.extends.ViewReleasesList extends Backbone.View
     @$el.fadeIn(3000)
   )
 
+  initialize: ->
+    view = this
+    @collection.on('filterChange', view.render, view)
+    @render()
+
   events:
     'click .back': 'goBack'
     'click .toggle-charts': 'toggleCharts'
+    'change input[name="filter"]': 'filterData'
 
   toggleCharts: ((e)->
     e.preventDefault()
@@ -78,6 +85,9 @@ class app.extends.ViewReleasesList extends Backbone.View
       $('#charts').fadeIn(1000)
       $('.toggle-charts').animate({top: '0px', right: '60px'}, 1000)
   )
+
+  filterData: -> @collection.filterChange(@$el.find('input[name="filter"]:checked').val())
+  
 
 
 class app.extends.ViewRelease extends Backbone.View
@@ -92,10 +102,8 @@ class app.extends.ViewRelease extends Backbone.View
 
 app.views.searchForm = new (Backbone.View.extend({
   el: '#search-form'
-  
-  initialize: -> null
-  
   render: -> @$el.fadeIn(1000)
+  initialize: -> null
 
   events:
     'click #submitter': 'submitInfo'

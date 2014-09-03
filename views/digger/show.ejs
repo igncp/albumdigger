@@ -10,18 +10,26 @@
   <p><input id="band-name" type="text" name="band"></p>
   <p>The album title:</p>
   <p><input id="album-name" type="text" name="album"></p>
-  <input type="submit" value="Search" id="submitter" class="btn btn-info">
+  <input type="submit" value="Search" id="submitter" class="btn btn-primary">
 </form>
 
 <script type="text/template" id="release-row">
     <div class="release-row">
-      <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label %>) <a class="release-link" href="#">Link</a>
+      <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label %>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="release-link btn btn-default" href="#">Link</a>
     </div>
 </script>
 
 <script type="text/template" id="releases-list">
+  <p><a href="" class="btn btn-info back">Back</a></p>
+  <div><form>
+    <p><strong>Filter:</strong></p>
+    <p>
+      <input type="radio" id="filter-none" value="filter-none" name="filter"> <label for="filter-none">None</label> 
+      <input type="radio" id="filter-band" value="filter-band" name="filter"> <label for="filter-band">The band appears</label> 
+      <input type="radio" id="filter-all" value="filter-all" name="filter"> <label for="filter-all">The band and the album appears</label> 
+      </p>
+  </form></div>
   <p><strong>Results:</strong> <%= result_count %> </p>
-  <p><a href="" class="btn btn-default back">Back</a></p>
   <p><strong>First five:</strong></p>
   <ul class="list-five"></ul>
   <div style="position: relative; width: 100%">
@@ -32,7 +40,7 @@
   </div>
   <ul class="list-rest"></ul>
   <p><strong>Discogs search <a href="http://api.discogs.com" target="_blank">API</a></strong></p>
-  <p><a href="" class="btn btn-default back">Back</a></p>
+  <p><a href="" class="btn btn-info back">Back</a></p>
 </script>
 
 <script type="text/template" id="release">
@@ -60,5 +68,5 @@
       <% }%>
     </ul>
     
-    <p><a href="" class="back btn btn-default">Back</a></p>
+    <p><a href="" class="back btn btn-info">Back</a></p>
 </script>

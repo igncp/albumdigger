@@ -37,9 +37,8 @@ charts.generates.generateChartYears = ((data)->
     }).style({'text-anchor': 'end'})
 
   svg.append('g').attr('class', 'axis axis--y').call( yAxis )
-    .append('text')
-    .attr('x', 20).attr('dy', '.32em')
-    .style('font-weight', 'bold').text('Number of albums per year')
+    .append('text').attr({x: 20, dy: '.32em'})
+    .style({'font-weight': 'bold'}).text('Number of albums per year')
 
   barWidth = width / data.length
   barYFn = ((d)-> y(d.count))
@@ -60,7 +59,7 @@ charts.generates.generateChartYears = ((data)->
 
   svg.selectAll('rect').data(data).enter().append('rect').attr('x', (d, i)-> barWidth * i)
     .attr({y: barYFn, width: barWidth, height: barHeightFn})
-    .style({fill: colorFn, stroke: 'white', filter: 'url(#drop-shadow-years)'})
+    .style({fill: colorFn, stroke: '#eee', filter: 'url(#drop-shadow-years)'})
     .on('mouseover', mouseover).on('mouseleave', mouseleave)
     .append('title').text((d)-> d.count)
 
@@ -124,4 +123,62 @@ charts.generates.generateChartLabels = ((data)->
     .style({fill: ((d)-> color(d.count)), stroke: 'black', filter: 'url(#drop-shadow-labels)'})
     .on('click', click).on('mouseover', mouseover).on('mouseleave', mouseleave)
     .append('title').text((d)-> 'Label: ' + d.label + '\n' + 'Count: ' + d.count)
+)
+
+charts.generates.generateChartStyles = ((data)->
+  margin = {top: 30, right: 70, bottom: 50, left: 80}
+  width = $('#charts').parent().parent().parent().innerWidth() - margin.left - margin.right
+  height = 250
+  outerRadius = 120
+
+  svg = d3.select('#charts').append('div').attr({id: 'chart-styles'})
+    .append('svg').attr('width', width)
+    .attr('height', height + margin.top + margin.bottom).append('g')
+    .attr('transform', 'translate(' + String(width / 2) + ',' + \
+      String(height / 2 + margin.top + margin.bottom - 40) + ')')
+
+  color = d3.scale.category20()
+  arc = {}
+
+  stashArcs = ((d)-> d.data.ea0 = _.cloneDeep(d) )
+
+  angle = ((d)->
+    a = (d.startAngle + d.endAngle) * 90 / Math.PI - 90
+    if a > 90 then return a - 180 else return a
+  )
+
+  textTransform = ((d)->
+    d.outerRadius = outerRadius
+    d.innerRadius = outerRadius / 2
+    'translate(' + arc.centroid(d) + ')'
+  )
+
+  pie = d3.layout.pie().sort(null).value(((d)-> d.count))
+  arc = d3.svg.arc().outerRadius(outerRadius)
+
+
+  mouseTransition = 1000
+  
+  mouseover = ->
+    d3.select(this).select('path').transition().duration(mouseTransition).style({fill: '#2E5A23'})
+
+  mouseleave = ->
+    d3.select(this).select('path').transition().duration(mouseTransition)
+      .style({fill: (d, i)-> color(d.data.count)})
+
+  slices = svg.selectAll('.slice').data(pie(data)).enter().append('g').attr('class', 'slice')
+    .on({mouseover: mouseover, mouseleave: mouseleave})
+
+  generateFilter(svg, 'styles', .6, 3, 0, 0)
+  path = slices.append('path').attr({fill: ((d,i)-> color(d.data.count)), d: arc})
+    .style({filter: 'url(#drop-shadow-styles)', stroke: '#777', 'stroke-width': .5})
+
+  labels = slices.filter((d)-> d.endAngle - d.startAngle > .2)
+    .append('text').attr({dy: '.35em', 'text-anchor': 'middle'}).attr('transform', textTransform)
+    .style({fill: 'White', font: 'bold 12px Arial', cursor: 'default'})
+    .text((d)-> d.data.count)
+
+  slices.append('title').text((d)-> d.data.style)
+  svg.append('text').attr({transform: 'translate(0,-' + String(height / 2 + 10) + ')', \
+    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Most repeated styles:')
 )

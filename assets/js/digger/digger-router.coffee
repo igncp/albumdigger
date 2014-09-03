@@ -21,7 +21,7 @@ app.extends.Router = Backbone.Router.extend({
     else
       $.ajax({url: '/releases/', type: 'POST', data: app.params}).done((data)->
         releases = JSON.parse(data)
-
+        console.log releases
         app.models.releases.remove() if app.models.releases
         app.models.releases = new app.extends.CollectionReleases(releases.results)
         

@@ -63,6 +63,8 @@ class app.extends.ViewReleasesList extends Backbone.View
       )
     app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
     app.views.chartLabels = new app.extends.charts.ChartLabels({collection: view.collection})
+    app.views.chartStyles = new app.extends.charts.ChartStyles({collection: view.collection})
+
     @$el.fadeIn(3000)
   )
 
@@ -145,4 +147,15 @@ app.extends.charts.ChartLabels = Backbone.View.extend({
     })
     data = _.sortBy(data, 'count').reverse()
     app.extends.charts.generates.generateChartLabels(data)
+})
+
+app.extends.charts.ChartStyles = Backbone.View.extend({
+  render: ->
+    data = @collection.groupBy('style')
+    data = _.keys(data).map((key, index)-> {
+      style: (-> if key is 'undefined' then return 'None' else return key)()
+      count: data[key].length
+    })
+    data = _.sortBy(data, 'count').reverse()
+    app.extends.charts.generates.generateChartStyles(data)
 })

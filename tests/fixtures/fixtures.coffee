@@ -10,4 +10,6 @@ module.exports = {
     album: 'pretty daze'
     band: 'kurt vile'
   }
+
+  chartsCount: 2
 }

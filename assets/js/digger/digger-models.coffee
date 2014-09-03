@@ -5,6 +5,7 @@ class app.extends.ModelReleaseRow extends Backbone.Model
   urlRoot: 'release'
   initialize: ( ->
     @set('label', @get('label')[0]) if @get('label')
+    @set('style', @get('style')[0]) if @get('style')
   )
 
 class app.extends.CollectionReleases extends Backbone.Collection
@@ -19,16 +20,14 @@ class app.extends.CollectionReleases extends Backbone.Collection
     band = unescape(app.params.band).toLowerCase()
     album = unescape(app.params.album).toLowerCase()
 
-    console.log app.params
-
     if filter is 'filter-none' then newModels = @initialObjects
     else if filter is 'filter-band'
-      _.each(@models, (model)->
-        if model.get('title').toLowerCase().match(band) then newModels.push model
+      _.each(@initialObjects, (model)->
+        if model.title.toLowerCase().match(band) then newModels.push model
       )
     else if filter is 'filter-all'
-      _.each(@models, (model)->
-        title = model.get('title').toLowerCase()
+      _.each(@initialObjects, (model)->
+        title = model.title.toLowerCase()
         if title.match(band) and title.match(album) then newModels.push model
       )
 

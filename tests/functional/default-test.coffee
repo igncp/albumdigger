@@ -16,6 +16,8 @@ casper.test.begin('General tests.', (test)->
 
   ).waitUntilVisible('div#releases').then( ->
     test.assertEval(( -> $('div#releases li').length > 0), 'It loads albums.')
+    test.assertEvalEquals(( -> $('svg').length),
+      fixtures.chartsCount, 'All the charts (svg) are rendered.')
     this.click('div#releases li .release-link')
     
   ).waitUntilVisible('.singleRelease').then( ->

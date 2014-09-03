@@ -19,6 +19,8 @@ class app.extends.CollectionReleases extends Backbone.Collection
     band = unescape(app.params.band).toLowerCase()
     album = unescape(app.params.album).toLowerCase()
 
+    console.log app.params
+
     if filter is 'filter-none' then newModels = @initialObjects
     else if filter is 'filter-band'
       _.each(@models, (model)->
@@ -31,7 +33,6 @@ class app.extends.CollectionReleases extends Backbone.Collection
       )
 
     @reset(newModels)
-
     @trigger('filterChange')
   )
 

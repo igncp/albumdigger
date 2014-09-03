@@ -6,8 +6,8 @@ module.exports = {
     res.view()
 
   releasesList: (req, res) ->
-    band = encodeURIComponent(req.body.bandName)
-    album = encodeURIComponent(req.body.albumName)
+    band = encodeURIComponent(req.body.band)
+    album = encodeURIComponent(req.body.album)
 
     url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
     request.get({

@@ -12,25 +12,25 @@ app.extends.Router = Backbone.Router.extend({
   }
 
   search: ((band,album)->
-    data = {}
-    data.bandName = band
-    data.albumName = album
-    app.params = queryString()
+    app.params = {band: band, album: album}
     
     if app.back is true
       app.back = false
       app.views.releasesList.render()
 
     else
-      $.ajax({url: '/releases/', type: 'POST', data: data}).done((data)->
+      $.ajax({url: '/releases/', type: 'POST', data: app.params}).done((data)->
         releases = JSON.parse(data)
 
         app.models.releases.remove() if app.models.releases
         app.models.releases = new app.extends.CollectionReleases(releases.results)
         
-        if app.views.releasesList then app.views.releasesList.render()
-        else app.views.releasesList = new \
-          app.extends.ViewReleasesList({collection: app.models.releases})
+        if app.views.releasesList
+          app.views.releasesList.collection = app.models.releases
+          app.views.releasesList.render()
+        else
+          app.views.releasesList = new \
+            app.extends.ViewReleasesList({collection: app.models.releases})
       )
   )
   

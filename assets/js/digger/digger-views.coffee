@@ -44,6 +44,8 @@ class app.extends.ViewReleasesList extends Backbone.View
   template: _.template($('#releases-list').html())
   render: ( ->
     view = this
+    @collection.off('filterChange')
+    @collection.on('filterChange', view.render, view)
     app.removeAllViews()
     @el.innerHTML = @template({result_count: view.collection.size()})
     @$el.find('input[value="' + view.collection.currentFilter + '"]').attr('checked', 'checked')
@@ -63,11 +65,6 @@ class app.extends.ViewReleasesList extends Backbone.View
     app.views.chartLabels = new app.extends.charts.ChartLabels({collection: view.collection})
     @$el.fadeIn(3000)
   )
-
-  initialize: ->
-    view = this
-    @collection.on('filterChange', view.render, view)
-    @render()
 
   events:
     'click .back': 'goBack'

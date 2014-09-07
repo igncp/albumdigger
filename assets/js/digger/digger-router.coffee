@@ -14,7 +14,7 @@ app.extends.Router = Backbone.Router.extend({
   search: ((band,album)->
     app.params = {band: band, album: album}
     
-    if app.back is true
+    if app.back is true and app.views.releasesList?
       app.back = false
       app.views.releasesList.render()
 
@@ -40,9 +40,15 @@ app.extends.Router = Backbone.Router.extend({
     app.views.searchForm.render()
   )
 
-  release: ( ->
-    app.views.releasesList.hide()
-    app.views.release = new app.extends.ViewRelease({model: app.models.release})
+  release: ( (id)->
+    Backbone.ajax({
+      url: "/release/#{id}"
+      success: (data)->
+        album = JSON.parse(data)
+        app.models.release = new app.extends.ModelRelease(album)
+        app.views.release = new app.extends.ViewRelease({model: app.models.release})
+      }
+    )
   )
 
 })

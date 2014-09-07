@@ -31,14 +31,7 @@ class app.extends.ViewReleaseRow extends Backbone.View
   
   selectRelease: ((e)->
     e.preventDefault()
-    
-    @model.fetch({success: ((model, data)->
-      album = JSON.parse(data)
-      app.models.release = new app.extends.ModelRelease(album)
-      app.router.navigate('album?id=' + album.id, {trigger: true})
-    ), error: ( ->
-      console.log 'error'
-    )})
+    app.router.navigate('album?id=' + @model.get('id'), {trigger: true})
   )
 
 
@@ -96,7 +89,9 @@ class app.extends.ViewRelease extends Backbone.View
   el: '.singleRelease'
   template: _.template($('#release').html())
   
-  render: -> @$el.html(@template(@model.attributes)).fadeIn(3000)
+  render: ->
+    app.removeAllViews()
+    @$el.html(@template(@model.attributes)).fadeIn(3000)
 
   events:
     'click .back': 'goBack'

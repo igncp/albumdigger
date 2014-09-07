@@ -43,7 +43,7 @@ class app.extends.ViewReleasesList extends Backbone.View
     @collection.off('filterChange')
     @collection.on('filterChange', view.render, view)
     app.removeAllViews()
-    @el.innerHTML = @template({result_count: view.collection.size()})
+    @el.innerHTML = @template({result_count: view.collection.size(), search_strings: app.params})
     @$el.find('input[value="' + view.collection.currentFilter + '"]').attr('checked', 'checked')
     five = @collection.first(5)
     five.forEach((model)->
@@ -51,7 +51,7 @@ class app.extends.ViewReleasesList extends Backbone.View
       view.$el.find('.list-five').append(release.el)
     )
     if @collection.length > 5
-      @$el.find('.list-rest').append('<p><strong>Rest of the results:</strong></p>')
+      @$el.find('.list-rest').append('<p><strong>Rest of the results</strong></p>')
       @collection.each((model, index)->
         if index > 4
           release = new app.extends.ViewReleaseRow({ model: model })

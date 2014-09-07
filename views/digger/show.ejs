@@ -3,19 +3,22 @@
 <div id="releases" style="display: none" class="shadow-border"></div>
 <div class="singleRelease shadow-border" style="display: none"></div>
 <form id="search-form" style="display: none">
-  <div id="search-form-inputs" class="shadow-border"><table>
-    <tr>
-      <td>The band: </td>
-      <td><input id="band-name" type="text" name="band"></td>
-    </tr>
-    <tr>
-      <td>The album title: </td>
-      <td><input id="album-name" type="text" name="album"></td>
-    </tr>
-    <tr>
-      <td colspan="2"><input type="submit" value="Search" id="submitter" class="btn btn-primary"></td>
-    </tr>
-  </table></div>
+  <div id="search-form-inputs" class="shadow-border">
+    <p>Check information about almost any album, and visualize data about them, using the <a href="http://www.discogs.com/developers/" target="_blank">Discogs API</a> and <a href="http://d3js.org/" target="_blank">D3JS</a>.</p>
+    <table>
+      <tr>
+        <td>Band name: </td>
+        <td><input id="band-name" type="text" name="band"></td>
+      </tr>
+      <tr>
+        <td>Album title: </td>
+        <td><input id="album-name" type="text" name="album"></td>
+      </tr>
+      <tr>
+        <td colspan="2"><input type="submit" value="Search" id="submitter" class="btn btn-primary"></td>
+      </tr>
+    </table>
+  </div>
   <p id="validation-error-message" class="alert alert-warning" role="alert">You must enter values in the album and the band fields</p>
 </form>
 
@@ -24,28 +27,31 @@
       <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label %>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="release-link btn btn-default" href="#">Link</a>
     </div>
 </script>
-
 <script type="text/template" id="releases-list">
   <p><a href="" class="btn btn-info back">Back</a></p>
+  <div class="releases-search-texts">
+    <p>Search texts</p>
+    <p>Band: <span class="search-text"><%= search_strings.band %></span></p>
+    <p>Album: <span class="search-text"><%= search_strings.album %></span></p>
+  </div>
   <p class="releases-results"><strong>Results:</strong> <%= result_count %> </p>
   <div><form>
-    <p><strong>Filter:</strong></p>
+    <p><strong>Filter</strong></p>
     <ul>
       <li><input type="radio" id="filter-none" value="filter-none" name="filter"> <label for="filter-none">None</label></li>
       <li><input type="radio" id="filter-band" value="filter-band" name="filter"> <label for="filter-band">The band appears</label></li>
       <li><input type="radio" id="filter-all" value="filter-all" name="filter"> <label for="filter-all">The band and the album appear</label> </li>
     </ul>
   </form></div>
-  <p><strong>First five:</strong></p>
+  <p><strong>First five</strong></p>
   <ul class="list-five"></ul>
   <div style="position: relative; width: 100%">
   <div class="toggle-charts"><a class="btn btn-primary" href="">Hide charts</a></div>
   <div id="charts">
-    <p><strong>Charts:</strong></p>
+    <p><strong>Charts</strong></p>
   </div>
   </div>
   <ul class="list-rest"></ul>
-  <p><strong>Discogs search <a href="http://api.discogs.com" target="_blank">API</a></strong></p>
   <p><a href="" class="btn btn-info back">Back</a></p>
 </script>
 

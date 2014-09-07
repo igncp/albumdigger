@@ -8,6 +8,7 @@ class app.extends.ModelReleaseRow extends Backbone.Model
     @set('style', @get('style')[0]) if @get('style')
   )
 
+
 class app.extends.CollectionReleases extends Backbone.Collection
   model: app.extends.ModelReleaseRow
   initialize: (data)->
@@ -17,18 +18,29 @@ class app.extends.CollectionReleases extends Backbone.Collection
   filterChange: ((filter)->
     @currentFilter = filter
     newModels = []
-    band = unescape(app.params.band).toLowerCase()
-    album = unescape(app.params.album).toLowerCase()
+    band = unescape(app.params.band).toLowerCase().split(' ')
+    album = unescape(app.params.album).toLowerCase().split(' ')
 
     if filter is 'filter-none' then newModels = @initialObjects
     else if filter is 'filter-band'
       _.each(@initialObjects, (model)->
-        if model.title.toLowerCase().match(band) then newModels.push model
+        allPass = true
+        _.each(band, (bandWord)->
+          if not model.title.toLowerCase().match(bandWord) then allPass = false
+        )
+        if allPass then newModels.push model
       )
     else if filter is 'filter-all'
       _.each(@initialObjects, (model)->
+        allPass = true
         title = model.title.toLowerCase()
-        if title.match(band) and title.match(album) then newModels.push model
+        _.each(band, (bandWord)->
+          if not title.match(bandWord) then allPass = false
+        )
+        _.each(album, (albumWord)->
+          if not title.match(albumWord) then allPass = false
+        )
+        if allPass then newModels.push model
       )
 
     @reset(newModels)

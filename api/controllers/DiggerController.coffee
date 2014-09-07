@@ -17,8 +17,11 @@ module.exports = {
 
   release: (req, res) ->
     url = 'http://api.discogs.com/releases/' + req.param('id')
-    request.get({url: url,headers: {'User-Agent': 'node-album-app: still without url', \
-      'Host': 'api.discogs.com'}}, (err, all, data) -> res.json(data) )
+    request.get({
+      url: url
+      headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'
+      'Host': 'api.discogs.com'}
+    }, (err, all, data) -> res.json(data))
 
   videos: (req, res) ->
     band = encodeURIComponent(req.body.bandName)

@@ -31,11 +31,14 @@ class app.extends.ViewReleaseRow extends Backbone.View
   
   selectRelease: ((e)->
     e.preventDefault()
-    @model.fetch({success: (model, data)->
+    
+    @model.fetch({success: ((model, data)->
       album = JSON.parse(data)
       app.models.release = new app.extends.ModelRelease(album)
       app.router.navigate('album?id=' + album.id, {trigger: true})
-    })
+    ), error: ( ->
+      console.log 'error'
+    )})
   )
 
 

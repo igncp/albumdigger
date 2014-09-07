@@ -2,14 +2,22 @@
 
 <p>This is an information-seeker site for albums. Please, type the band name and the album name correctly. Then, you'll see several results depending on the source. It's built using <strong>Node.js</strong>, <strong>Backbone.js</strong>, <strong>D3.js</strong> and the <strong>Discogs API</strong> as main technologies.</p>
 
-<div id="releases" style="display: none"></div>
-<div class="singleRelease" style="display: none"></div>
+<div id="releases" style="display: none" class="shadow-border"></div>
+<div class="singleRelease shadow-border" style="display: none"></div>
 <form id="search-form" style="display: none">
-  <p>The band:</p>
-  <p><input id="band-name" type="text" name="band"></p>
-  <p>The album title:</p>
-  <p><input id="album-name" type="text" name="album"></p>
-  <input type="submit" value="Search" id="submitter" class="btn btn-primary">
+  <div id="search-form-inputs" class="shadow-border"><table>
+    <tr>
+      <td>The band: </td>
+      <td><input id="band-name" type="text" name="band"></td>
+    </tr>
+    <tr>
+      <td>The album title: </td>
+      <td><input id="album-name" type="text" name="album"></td>
+    </tr>
+    <tr>
+      <td colspan="2"><input type="submit" value="Search" id="submitter" class="btn btn-primary"></td>
+    </tr>
+  </table></div>
   <p id="validation-error-message" class="alert alert-warning" role="alert">You must enter values in the album and the band fields</p>
 </form>
 
@@ -21,15 +29,15 @@
 
 <script type="text/template" id="releases-list">
   <p><a href="" class="btn btn-info back">Back</a></p>
+  <p class="releases-results"><strong>Results:</strong> <%= result_count %> </p>
   <div><form>
     <p><strong>Filter:</strong></p>
-    <p>
-      <input type="radio" id="filter-none" value="filter-none" name="filter"> <label for="filter-none">None</label> 
-      <input type="radio" id="filter-band" value="filter-band" name="filter"> <label for="filter-band">The band appears</label> 
-      <input type="radio" id="filter-all" value="filter-all" name="filter"> <label for="filter-all">The band and the album appears</label> 
-      </p>
+    <ul>
+      <li><input type="radio" id="filter-none" value="filter-none" name="filter"> <label for="filter-none">None</label></li>
+      <li><input type="radio" id="filter-band" value="filter-band" name="filter"> <label for="filter-band">The band appears</label></li>
+      <li><input type="radio" id="filter-all" value="filter-all" name="filter"> <label for="filter-all">The band and the album appears</label> </li>
+    </ul>
   </form></div>
-  <p><strong>Results:</strong> <%= result_count %> </p>
   <p><strong>First five:</strong></p>
   <ul class="list-five"></ul>
   <div style="position: relative; width: 100%">

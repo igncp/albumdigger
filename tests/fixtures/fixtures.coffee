@@ -11,5 +11,5 @@ module.exports = {
     band: 'kurt vile'
   }
 
-  chartsCount: 2
+  chartsCount: 3
 }

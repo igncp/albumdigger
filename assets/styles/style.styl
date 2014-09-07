@@ -1,6 +1,6 @@
 @import 'nib'
 
-border-footer-header = solid 2px #aaa
+border-footer-header = solid 5px #2E749C
 
 ::selection {
   color:#CCC
@@ -30,9 +30,11 @@ header
 input[type="text"]
   border 1px solid #ccc
   border-radius(5px)
-  margin-bottom 20px
   padding 3px
   padding-left 6px
+
+label
+  font-weight normal
 
 ul
   list-style-type: none
@@ -40,9 +42,15 @@ ul
   
 .row { margin: auto 0px }
 
+.shadow-border
+  border: 1px solid #CCC
+  border-radius(12px)
+  box-shadow(0 0 4px 3px #eee)
+
 .sky-background
   background-image: url('../images/sky.jpg')
   background-size: 100%
+  box-shadow(0px 0px 5px .5px #98ADD8)
   font-family: 'Sofadi One', cursive
   text-shadow: 0px 0px 8px #444
   
@@ -59,6 +67,26 @@ ul
 
 #search-form
   margin-top 20px
+  
+#search-form-inputs
+  display inline-block
+
+  table
+    margin 0px auto
+  tr
+    padding 10px 20px
+  tr:first-child td
+    padding-top 30px
+  tr:first-child td:first-child
+    text-align right
+  td
+    padding 15px 5px
+    vertical-align middle
+  td:first-child
+    padding-left 30px
+  td:last-child
+    padding-right 30px
+    
 
 #submitter
   margin-bottom: 10px

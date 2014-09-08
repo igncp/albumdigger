@@ -60,6 +60,7 @@ class app.extends.ViewReleasesList extends Backbone.View
     app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
     app.views.chartLabels = new app.extends.charts.ChartLabels({collection: view.collection})
     app.views.chartStyles = new app.extends.charts.ChartStyles({collection: view.collection})
+    app.views.chartMap = new app.extends.charts.ChartMap({collection: view.collection})
 
     @$el.fadeIn(3000)
   )
@@ -126,34 +127,30 @@ app.views.searchForm = new (Backbone.View.extend({
 
 }))()
 
+generateChartData = ((collection, property, chart)->
+  data = collection.groupBy(property)
+  data = _.keys(data).map((key, index)->
+    obj = {}
+    obj.count = data[key].length
+    obj[property] = (-> if key is 'undefined' then return 'None' else return key)()
+    obj
+  )
+  data = _.sortBy(data, 'count').reverse() if property isnt 'year'
+  app.extends.charts.generates[chart](data)
+)
+
 app.extends.charts.ChartYears = Backbone.View.extend({
-  render: ->
-    data = @collection.groupBy('year')
-    data = _.keys(data).map((key, index)-> {
-      year: (-> if key is 'undefined' then return 'None' else return key)()
-      count: data[key].length
-    })
-    app.extends.charts.generates.generateChartYears(data)
+  render: -> generateChartData(@collection, 'year', 'generateChartYears')
 })
 
 app.extends.charts.ChartLabels = Backbone.View.extend({
-  render: ->
-    data = @collection.groupBy('label')
-    data = _.keys(data).map((key, index)-> {
-      label: (-> if key is 'undefined' then return 'None' else return key)()
-      count: data[key].length
-    })
-    data = _.sortBy(data, 'count').reverse()
-    app.extends.charts.generates.generateChartLabels(data)
+  render: -> generateChartData(@collection, 'label', 'generateChartLabels')
 })
 
 app.extends.charts.ChartStyles = Backbone.View.extend({
-  render: ->
-    data = @collection.groupBy('style')
-    data = _.keys(data).map((key, index)-> {
-      style: (-> if key is 'undefined' then return 'None' else return key)()
-      count: data[key].length
-    })
-    data = _.sortBy(data, 'count').reverse()
-    app.extends.charts.generates.generateChartStyles(data)
+  render: -> generateChartData(@collection, 'style', 'generateChartStyles')
+})
+
+app.extends.charts.ChartMap = Backbone.View.extend({
+  render: -> generateChartData(@collection, 'country', 'generateChartMap')
 })

@@ -65,7 +65,6 @@ charts.generates.generateChartYears = ((data)->
 
 )
 
-
 charts.generates.generateChartLabels = ((data)->
   margin = {top: 30, right: 70, bottom: 100, left: 80}
   width = $('#charts').parent().parent().parent().innerWidth() - margin.left - margin.right
@@ -181,4 +180,56 @@ charts.generates.generateChartStyles = ((data)->
   slices.append('title').text((d)-> d.data.style)
   svg.append('text').attr({transform: 'translate(0,-' + String(height / 2 + 10) + ')', \
     'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Most repeated styles:')
+)
+
+charts.generates.generateChartMap = ((data)->
+  width = $('#releases').width() - 100
+  height = 600
+
+  _.each(data, (country)->
+    country.country = 'United States' if country.country.toLowerCase() is 'us'
+    country.country = 'United Kingdom' if country.country.toLowerCase() is 'uk'
+  )
+
+  convertToSlug = (text)-> text.toLowerCase().replace(/[^\w ]+/g,'').replace(/\ +/g,'-')
+  classFn = ((d)-> 'c-' + convertToSlug(d.properties.NAME))
+  
+  colorsScheme = ['#7C7CC9','#3A7035']
+  colorScale = d3.scale.linear().domain([1, d3.max(data, (d)->d.count)]).range([0,1])
+  colorScaleConversion = d3.scale.linear()
+    .domain(d3.range(0, 1, 1.0 / (colorsScheme.length))).range(colorsScheme)
+  colorFn = (count)-> colorScaleConversion(colorScale(count))
+
+  mouseoverFn = ((d)-> d3.select(this).style({'stroke-width': '.8px'}) )
+  mouseoutFn = ((d)-> d3.select(this).style({'stroke-width': '.2px'}) )
+
+  svg = d3.select('#charts').append('div').attr({id: 'chart-map'})
+    .append('svg').attr('width', width).attr('height', height)
+  
+  svg.append('text').attr({transform: 'translate(150,10)', \
+    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Number of albums per country:')
+
+  svg = svg.append('g')
+
+  generateFilter(svg, 'map', .6, 2, 0, 0)
+
+  d3.json('/data/world-map/world.json', (error, world)->
+    projection = d3.geo.mercator().center([0, 45.4]).scale(125).translate([width / 2, height / 2])
+    path = d3.geo.path().projection(projection)
+    
+    map = topojson.feature(world, world.objects.map).features
+    countries = svg.selectAll('.country').data(map).enter()
+      .append('path').attr({d: path, class: classFn})
+      .style({fill: '#EEE', stroke: '#777', 'stroke-width': .2, filter: 'url(#drop-shadow-map)'})
+      .on('mouseover', mouseoverFn)
+      .on('mouseout', mouseoutFn)
+      .append('title').text((d)-> d.properties.NAME + ': None')
+
+    _.each(data, (country)->
+      classSlug = '.c-' + convertToSlug(country.country)
+      svg.select(classSlug).style({fill: colorFn(country.count)})
+        .select('title').text(country.country + ': ' + country.count)
+    )
+
+  )
 )

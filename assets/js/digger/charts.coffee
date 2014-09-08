@@ -179,7 +179,7 @@ charts.generates.generateChartStyles = ((data)->
 
   slices.append('title').text((d)-> d.data.style)
   svg.append('text').attr({transform: 'translate(0,-' + String(height / 2 + 10) + ')', \
-    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Most repeated styles:')
+    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Most repeated styles')
 )
 
 charts.generates.generateChartMap = ((data)->
@@ -207,7 +207,7 @@ charts.generates.generateChartMap = ((data)->
     .append('svg').attr('width', width).attr('height', height)
   
   svg.append('text').attr({transform: 'translate(150,10)', \
-    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Number of albums per country:')
+    'text-anchor': 'middle'}).style({'font-weight': 'bold'}).text('Number of albums per country')
 
   svg = svg.append('g')
 

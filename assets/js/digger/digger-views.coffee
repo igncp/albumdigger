@@ -57,10 +57,10 @@ class app.extends.ViewReleasesList extends Backbone.View
           release = new app.extends.ViewReleaseRow({ model: model })
           view.$el.find('.list-rest').append(release.el)
       )
-    app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
     app.views.chartLabels = new app.extends.charts.ChartLabels({collection: view.collection})
-    app.views.chartStyles = new app.extends.charts.ChartStyles({collection: view.collection})
     app.views.chartMap = new app.extends.charts.ChartMap({collection: view.collection})
+    app.views.chartStyles = new app.extends.charts.ChartStyles({collection: view.collection})
+    app.views.chartYears = new app.extends.charts.ChartYears({collection: view.collection})
 
     @$el.fadeIn(3000)
   )

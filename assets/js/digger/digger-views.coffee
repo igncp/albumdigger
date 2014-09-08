@@ -45,6 +45,7 @@ class app.extends.ViewReleasesList extends Backbone.View
     app.removeAllViews()
     @el.innerHTML = @template({result_count: view.collection.size(), search_strings: app.params})
     @$el.find('input[value="' + view.collection.currentFilter + '"]').attr('checked', 'checked')
+      .parent().addClass('active')
     five = @collection.first(5)
     five.forEach((model)->
       release = new app.extends.ViewReleaseRow({ model: model })

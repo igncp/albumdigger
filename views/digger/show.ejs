@@ -35,14 +35,18 @@
     <p>Album: <span class="search-text"><%= search_strings.album %></span></p>
   </div>
   <p class="releases-results"><strong>Results:</strong> <%= result_count %> </p>
-  <div><form>
-    <p><strong>Filter</strong></p>
-    <ul>
-      <li><input type="radio" id="filter-none" value="filter-none" name="filter"> <label for="filter-none">None</label></li>
-      <li><input type="radio" id="filter-band" value="filter-band" name="filter"> <label for="filter-band">The band appears</label></li>
-      <li><input type="radio" id="filter-all" value="filter-all" name="filter"> <label for="filter-all">The band and the album appear</label> </li>
-    </ul>
-  </form></div>
+  <div class="btn-group" data-toggle="buttons" id="filtering-options">
+      <p><strong>Filter</strong></p>
+      <label class="btn btn-default">
+        <input type="radio" id="filter-none" value="filter-none" name="filter">None
+      </label>
+      <label class="btn btn-default">
+        <input type="radio" id="filter-band" value="filter-band" name="filter">The band appears
+      </label>
+      <label class="btn btn-default">
+        <input type="radio" id="filter-all" value="filter-all" name="filter">The band and the album appear
+      </label>
+  </div>
   <p><strong>First five</strong></p>
   <ul class="list-five"></ul>
   <div style="position: relative; width: 100%">

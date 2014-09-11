@@ -19,7 +19,10 @@ app.extends.Router = Backbone.Router.extend({
       app.views.releasesList.render()
 
     else
+      spinner = new Spinner().spin(document.getElementById('content'))
+      
       $.ajax({url: '/releases/', type: 'POST', data: app.params}).done((data)->
+        spinner.stop()
         releases = JSON.parse(data)
         # console.log releases
         app.models.releases.remove() if app.models.releases
@@ -41,9 +44,11 @@ app.extends.Router = Backbone.Router.extend({
   )
 
   release: ( (id)->
+    spinner = new Spinner().spin(document.getElementById('content'))
     Backbone.ajax({
       url: "/release/#{id}"
       success: (data)->
+        spinner.stop()
         album = JSON.parse(data)
         app.models.release = new app.extends.ModelRelease(album)
         app.views.release = new app.extends.ViewRelease({model: app.models.release})

@@ -5,7 +5,7 @@ app.views = {}
 
 app.removeAllViews = ( ->
   _.each(app.views, (viewContent, view)->
-    app.views[view].hide() if view != 'submitButton'
+    app.views[view].hide() if view isnt 'submitButton' and view isnt 'header'
   )
 )
 
@@ -31,6 +31,7 @@ class app.extends.ViewReleaseRow extends Backbone.View
   
   selectRelease: ((e)->
     e.preventDefault()
+    app.removeAllViews()
     app.router.navigate('album?id=' + @model.get('id'), {trigger: true})
   )
 
@@ -92,7 +93,7 @@ class app.extends.ViewRelease extends Backbone.View
   template: _.template($('#release').html())
   
   render: ->
-    app.removeAllViews()
+    # app.removeAllViews()
     @$el.html(@template(@model.attributes)).fadeIn(3000)
 
   events:
@@ -109,7 +110,9 @@ app.views.searchForm = new (Backbone.View.extend({
   
   submitInfo: ((e)->
     e.preventDefault()
+    view = @
     @validate( ->
+      view.hide()
       app.router.navigate('search?band=' + $('#band-name').val() +
         '&album=' + $('#album-name').val(), {trigger: true})
     )
@@ -155,3 +158,17 @@ app.extends.charts.ChartStyles = Backbone.View.extend({
 app.extends.charts.ChartMap = Backbone.View.extend({
   render: -> generateChartData(@collection, 'country', 'generateChartMap')
 })
+
+app.views.header = new (Backbone.View.extend({
+  el: 'header'
+  initialize: -> null
+
+  events:
+    'click a': 'goToIndex'
+  
+  goToIndex: ((e)->
+    e.preventDefault()
+    app.router.navigate('/', {trigger: true})
+  )
+
+}))()

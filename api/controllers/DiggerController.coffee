@@ -12,14 +12,14 @@ module.exports = {
     url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
     request.get({
       url: url
-      headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'}
+      headers: {'User-Agent': 'Album Digger: albumdigger.herokuapp.com'}
     }, (err, all, data) -> res.json(data) )
 
   release: (req, res) ->
     url = 'http://api.discogs.com/releases/' + req.param('id')
     request.get({
       url: url
-      headers: {'User-Agent': 'node-album-app: http://albumdigger.herokuapp.com'
+      headers: {'User-Agent': 'Album Digger: albumdigger.herokuapp.com',
       'Host': 'api.discogs.com'}
     }, (err, all, data) -> res.json(data))
 

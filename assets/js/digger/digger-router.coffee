@@ -59,7 +59,7 @@ app.extends.Router = Backbone.Router.extend({
     app.ajax = Backbone.ajax({
       url: "/release/#{id}"
       success: (data)->
-        spinner.stop()
+        app.spinner.stop()
         album = JSON.parse(data)
         app.models.release = new app.extends.ModelRelease(album)
         app.views.release = new app.extends.ViewRelease({model: app.models.release})

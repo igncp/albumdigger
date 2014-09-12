@@ -2,6 +2,15 @@ app = app or {}
 app.extends = app.extends or {}
 app.models = app.models or {}
 
+app.stopAjax = ( ->
+  if app.spinner
+    app.spinner.stop()
+    delete app.spinner
+  if app.ajax
+    app.ajax.abort()
+    delete app.ajax
+)
+
 app.extends.Router = Backbone.Router.extend({
   initialize: -> Backbone.history.start({pushState: true})
 
@@ -12,6 +21,7 @@ app.extends.Router = Backbone.Router.extend({
   }
 
   search: ((band,album)->
+    app.stopAjax()
     app.params = {band: band, album: album}
     
     if app.back is true and app.views.releasesList?
@@ -37,16 +47,14 @@ app.extends.Router = Backbone.Router.extend({
   )
   
   index: ( ->
-    app.spinner.stop() if app.spinner
-    if app.ajax
-      app.ajax.abort()
-      delete app.ajax
+    app.stopAjax()
     if app.back is true then app.back = false
     app.removeAllViews()
     app.views.searchForm.render()
   )
 
   release: ( (id)->
+    app.stopAjax()
     app.spinner = new Spinner().spin(document.getElementById('content'))
     app.ajax = Backbone.ajax({
       url: "/release/#{id}"

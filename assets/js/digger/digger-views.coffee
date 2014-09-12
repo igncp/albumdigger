@@ -93,7 +93,6 @@ class app.extends.ViewRelease extends Backbone.View
   template: _.template($('#release').html())
   
   render: ->
-    # app.removeAllViews()
     @$el.html(@template(@model.attributes)).fadeIn(3000)
 
   events:

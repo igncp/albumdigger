@@ -19,10 +19,9 @@ app.extends.Router = Backbone.Router.extend({
       app.views.releasesList.render()
 
     else
-      spinner = new Spinner().spin(document.getElementById('content'))
-      
-      $.ajax({url: '/releases/', type: 'POST', data: app.params}).done((data)->
-        spinner.stop()
+      app.spinner = new Spinner().spin(document.getElementById('content'))
+      app.ajax = Backbone.ajax({url: '/releases/', type: 'POST', data: app.params, success: (data)->
+        app.spinner.stop()
         releases = JSON.parse(data)
         # console.log releases
         app.models.releases.remove() if app.models.releases
@@ -34,18 +33,22 @@ app.extends.Router = Backbone.Router.extend({
         else
           app.views.releasesList = new \
             app.extends.ViewReleasesList({collection: app.models.releases})
-      )
+      })
   )
   
   index: ( ->
+    app.spinner.stop() if app.spinner
+    if app.ajax
+      app.ajax.abort()
+      delete app.ajax
     if app.back is true then app.back = false
     app.removeAllViews()
     app.views.searchForm.render()
   )
 
   release: ( (id)->
-    spinner = new Spinner().spin(document.getElementById('content'))
-    Backbone.ajax({
+    app.spinner = new Spinner().spin(document.getElementById('content'))
+    app.ajax = Backbone.ajax({
       url: "/release/#{id}"
       success: (data)->
         spinner.stop()

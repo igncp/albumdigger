@@ -1,6 +1,10 @@
 app = app or {}
 app.extends = app.extends or {}
 app.models = app.models or {}
+spinnerOpts = {
+  lines: 17, length: 10, width: 2, radius: 10, corners: 1.0, rotate: 0, trail: 25,
+  speed: 1.2, direction: 1
+}
 
 app.stopAjax = ( ->
   if app.spinner
@@ -29,7 +33,7 @@ app.extends.Router = Backbone.Router.extend({
       app.views.releasesList.render()
 
     else
-      app.spinner = new Spinner().spin(document.getElementById('content'))
+      app.spinner = new Spinner(spinnerOpts).spin(document.getElementById('content'))
       app.ajax = Backbone.ajax({url: '/releases/', type: 'POST', data: app.params, success: (data)->
         app.spinner.stop()
         releases = JSON.parse(data)
@@ -55,7 +59,7 @@ app.extends.Router = Backbone.Router.extend({
 
   release: ( (id)->
     app.stopAjax()
-    app.spinner = new Spinner().spin(document.getElementById('content'))
+    app.spinner = new Spinner(spinnerOpts).spin(document.getElementById('content'))
     app.ajax = Backbone.ajax({
       url: "/release/#{id}"
       success: (data)->

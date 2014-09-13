@@ -18,7 +18,7 @@ Backbone.View::goBack = ((e)->
 )
 
 class app.extends.ViewReleaseRow extends Backbone.View
-  tagName: 'li',
+  tagName: 'tr',
   
   template: _.template($('#release-row').html()),
   
@@ -53,7 +53,7 @@ class app.extends.ViewReleasesList extends Backbone.View
       view.$el.find('.list-five').append(release.el)
     )
     if @collection.length > 5
-      @$el.find('.list-rest').append('<p><strong>Rest of the results</strong></p>')
+      @$el.find('.list-rest').parent().prepend($('#list-rest-title').html())
       @collection.each((model, index)->
         if index > 4
           release = new app.extends.ViewReleaseRow({ model: model })
@@ -77,8 +77,10 @@ class app.extends.ViewReleasesList extends Backbone.View
     if $('#charts').is(':visible')
       $('.toggle-charts a').text('Show Charts')
       $('#charts').fadeOut(1000)
+      $('.table-rest').css('margin-top', '80px')
       $('.toggle-charts').animate({top: '-20px', right: '10px'}, 1000, 'linear')
     else
+      $('.table-rest').css('margin-top', '0px')
       $('.toggle-charts a').text('Hide Charts')
       $('#charts').fadeIn(1000)
       $('.toggle-charts').animate({top: '0px', right: '60px'}, 1000)

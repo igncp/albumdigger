@@ -22,10 +22,12 @@
 </form>
 
 <script type="text/template" id="release-row">
-    <div class="release-row">
-      <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label %>)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<a class="release-link btn btn-default" href="#">Link</a>
-    </div>
+  <td>
+    <%= title %> (genre: <%= genre %>, year: <%= typeof(year)!== 'undefined' ?  year : '-' %>, label: <%= label %>)
+  </td>
+  <td><a class="release-link btn btn-default" href="#">Link</a></td>
 </script>
+
 <script type="text/template" id="releases-list">
   <p><a href="" class="btn btn-info back">Back</a></p>
   <div class="releases-search-texts">
@@ -46,15 +48,14 @@
         <input type="radio" id="filter-all" value="filter-all" name="filter">The band and the album appear
       </label>
   </div>
-  <p><strong>First five</strong></p>
-  <ul class="list-five"></ul>
+  <table class="table table-bordered table-striped table-five"><thead><tr><th colspan="2">First five results</th></tr></thead><tbody class="list-five"></tbody></table>
   <div style="position: relative; width: 100%">
   <div class="toggle-charts"><a class="btn btn-primary" href="">Hide charts</a></div>
   <div id="charts">
     <p><strong>Charts</strong></p>
   </div>
   </div>
-  <ul class="list-rest"></ul>
+  <table class="table table-bordered table-striped table-rest"><tbody class="list-rest"></tbody></table>
   <p><a href="" class="btn btn-info back">Back</a></p>
 </script>
 
@@ -89,4 +90,8 @@
     <% }%>
     
     <p><a href="" class="back btn btn-info">Back</a></p>
+</script>
+
+<script type="text/template" id="list-rest-title">
+  <thead><tr><th colspan="2">Rest of the results</th></tr></thead>
 </script>

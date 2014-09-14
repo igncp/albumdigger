@@ -9,17 +9,17 @@ module.exports = {
     band = encodeURIComponent(req.body.band)
     album = encodeURIComponent(req.body.album)
 
-    url = 'http://api.discogs.com/database/search?type=release&q=' + band + '+' + album
+    url = 'http://api.discogs.com/database/search?type=release&q=' + band + '%20' + album
     request.get({
       url: url
-      headers: {'User-Agent': 'Album Digger: albumdigger.herokuapp.com'}
-    }, (err, all, data) -> res.json(data) )
+      headers: {'User-Agent': 'AlbumDigger/0.1 +http://albumdigger.hekuapp.com'}
+    }, (err, all, data) -> res.json(data))
 
   release: (req, res) ->
     url = 'http://api.discogs.com/releases/' + req.param('id')
     request.get({
       url: url
-      headers: {'User-Agent': 'Album Digger: albumdigger.herokuapp.com',
+      headers: {'User-Agent': 'AlbumDigger/0.1 +http://albumdigger.hekuapp.com',
       'Host': 'api.discogs.com'}
     }, (err, all, data) -> res.json(data))
 

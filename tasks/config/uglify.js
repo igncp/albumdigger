@@ -10,11 +10,12 @@
  *
  */
 module.exports = function(grunt) {
-
 	grunt.config.set('uglify', {
 		dist: {
-			src: ['.tmp/public/concat/production.js'],
-			dest: '.tmp/public/min/production.min.js'
+      expand: true,
+      cwd: '.tmp/public/js/digger/',
+      src: '**/*.js',
+      dest: '.tmp/public/js/digger/'
 		}
 	});
 

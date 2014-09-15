@@ -3,19 +3,38 @@ app.extends = app.extends or {}
 app.extends.charts = app.extends.charts or {}
 app.views = {}
 
+# Helper to remove all views except the site header.
 app.removeAllViews = ( ->
   _.each(app.views, (viewContent, view)->
-    app.views[view].hide() if view isnt 'submitButton' and view isnt 'header'
+    app.views[view].hide() if view isnt 'header'
   )
 )
 
 Backbone.View::hide = -> @$el.hide()
+
+# Autorender behaviour by default.
 Backbone.View::initialize = -> @render()
+
+# Despite not used in every view, extend all for DRY.
 Backbone.View::goBack = ((e)->
   e.preventDefault()
   app.back = true
   window.history.back()
 )
+
+app.views.header = new (Backbone.View.extend({
+  el: 'header'
+  
+  initialize: -> null # Don't auto-render.
+
+  events: {'click a': 'goToIndex'}
+  
+  goToIndex: ((e)->
+    e.preventDefault()
+    app.router.navigate('/', {trigger: true})
+  )
+
+}))()
 
 class app.extends.ViewReleaseRow extends Backbone.View
   tagName: 'tr',
@@ -26,8 +45,7 @@ class app.extends.ViewReleaseRow extends Backbone.View
     @$el.html(@template(@model.attributes))
     this
   
-  events:
-    'click .release-link': 'selectRelease'
+  events: {'click .release-link': 'selectRelease'}
   
   selectRelease: ((e)->
     e.preventDefault()
@@ -119,9 +137,10 @@ app.views.searchForm = new (Backbone.View.extend({
     )
   )
 
+  # Validates that the inputs are not empty. If the validation passes
+  # cb is called.
   validate: ((cb)->
-    if $('#band-name').val() != '' and $('#album-name').val()
-      cb()
+    if $('#band-name').val() != '' and $('#album-name').val() then cb()
     else
       duration = 1000
       message = @$el.find('#validation-error-message')
@@ -144,6 +163,7 @@ generateChartData = ((collection, property, chart)->
   app.extends.charts.generates[chart](data)
 )
 
+# The four charts.
 app.extends.charts.ChartYears = Backbone.View.extend({
   render: -> generateChartData(@collection, 'year', 'generateChartYears')
 })
@@ -159,17 +179,3 @@ app.extends.charts.ChartStyles = Backbone.View.extend({
 app.extends.charts.ChartMap = Backbone.View.extend({
   render: -> generateChartData(@collection, 'country', 'generateChartMap')
 })
-
-app.views.header = new (Backbone.View.extend({
-  el: 'header'
-  initialize: -> null
-
-  events:
-    'click a': 'goToIndex'
-  
-  goToIndex: ((e)->
-    e.preventDefault()
-    app.router.navigate('/', {trigger: true})
-  )
-
-}))()

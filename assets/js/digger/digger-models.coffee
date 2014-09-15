@@ -15,6 +15,8 @@ class app.extends.CollectionReleases extends Backbone.Collection
     @initialObjects = data
     @currentFilter = 'filter-none'
 
+  # Apply selected filter to the collection. It uses a copy of the entire
+  # collection stored at this (@initialObjects), and changes the models.
   filterChange: ((filter)->
     @currentFilter = filter
     newModels = []
@@ -44,6 +46,8 @@ class app.extends.CollectionReleases extends Backbone.Collection
       )
 
     @reset(newModels)
+
+    # Event at which the view ViewReleasesList is listening.
     @trigger('filterChange')
   )
 

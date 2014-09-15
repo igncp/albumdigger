@@ -1,11 +1,14 @@
 app = app or {}
 app.extends = app.extends or {}
 app.models = app.models or {}
+
+# http://fgnass.github.io/spin.js/
 spinnerOpts = {
   lines: 17, length: 10, width: 2, radius: 10, corners: 1.0, rotate: 0, trail: 25,
   speed: 1.2, direction: 1
 }
 
+# Ends any previous ajax request and deletes the spinner.
 app.stopAjax = ( ->
   if app.spinner
     app.spinner.stop()
@@ -52,6 +55,8 @@ app.extends.Router = Backbone.Router.extend({
   
   index: ( ->
     app.stopAjax()
+
+    # To be able to use app.back in the search route.
     if app.back is true then app.back = false
     
     app.removeAllViews()
@@ -73,21 +78,3 @@ app.extends.Router = Backbone.Router.extend({
   )
 
 })
-
-queryString = ( ->
-  query_string = {}
-  query = window.location.search.substring(1)
-  vars = query.split('&')
-  for i in [0...vars.length]
-    pair = vars[i].split('=')
-
-    if typeof query_string[pair[0]] is 'undefined'
-      query_string[pair[0]] = pair[1]
-    else if typeof query_string[pair[0]] is 'string'
-      arr = [ query_string[pair[0]], pair[1] ]
-      query_string[pair[0]] = arr
-    else
-      query_string[pair[0]].push(pair[1])
-  
-  query_string
-)
